@@ -15,7 +15,7 @@ def BFS(graph):
         elem = stack.pop(0)
         if elem.cell_type == FINISH:
             create_path(elem, ancestors)
-            raise StopIteration
+            break
 
         for neighbor in elem.neighbords:
             if not neighbor[0].visited:
@@ -23,7 +23,7 @@ def BFS(graph):
                 ancestors[neighbor[0].id] = elem
                 stack.append(neighbor[0])
         yield
-    raise StopIteration
+    yield
 
 def get_min(stack, costs):
     min_elem = 0
@@ -47,7 +47,7 @@ def DXTR(graph):
 
         if elem.cell_type == FINISH:
             create_path(elem, ancestors)
-            raise StopIteration
+            break
 
         for neighbord in elem.neighbords:
             if (not neighbord[0].id in costs) or (costs[elem.id] + neighbord[1] < costs[neighbord[0].id]):
@@ -55,7 +55,7 @@ def DXTR(graph):
                 costs[neighbord[0].id] = costs[elem.id] + neighbord[1]
                 stack.append(neighbord[0])
         yield
-    raise StopIteration
+    yield
 
 def calc_distance(x1, y1, x2, y2):
     return abs(x1 - x2) + abs(y1 - y2)
@@ -75,7 +75,7 @@ def A(graph):
 
         if elem.cell_type == FINISH:
             create_path(elem, ancestors)
-            raise StopIteration
+            break
 
         for neighbord in elem.neighbords:
             if (not neighbord[0].id in costs) or (costs[elem.id] + neighbord[1] < costs[neighbord[0].id]):
@@ -83,4 +83,4 @@ def A(graph):
                 costs[neighbord[0].id] = costs[elem.id] + neighbord[1] + calc_distance(graph.graph[graph.finish].x, graph.graph[graph.finish].y, neighbord[0].x, neighbord[0].y)
                 stack.append(neighbord[0])
         yield
-    raise StopIteration
+    yield
