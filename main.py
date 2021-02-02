@@ -22,7 +22,8 @@ vis_color_dict = {
 
 funct_dict = {
     "b": BFS,
-    "d": DXTR
+    "d": DXTR,
+    "a": A
 }
 
 class GraphVis:

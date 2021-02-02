@@ -57,5 +57,30 @@ def DXTR(graph):
         yield
     raise StopIteration
 
-def A():
-    pass
+def calc_distance(x1, y1, x2, y2):
+    return abs(x1 - x2) + abs(y1 - y2)
+
+def A(graph):
+    stack = list()
+    ancestors = dict()
+    costs = dict()
+
+    stack.append(graph.graph[graph.start])
+    graph.graph[graph.start].visited = True
+    costs[graph.graph[graph.start].id] = 0
+    while stack:
+        elem = get_min(stack, costs)
+        print(costs[elem.id])
+        elem.visited = True
+
+        if elem.cell_type == FINISH:
+            create_path(elem, ancestors)
+            raise StopIteration
+
+        for neighbord in elem.neighbords:
+            if (not neighbord[0].id in costs) or (costs[elem.id] + neighbord[1] < costs[neighbord[0].id]):
+                ancestors[neighbord[0].id] = elem
+                costs[neighbord[0].id] = costs[elem.id] + neighbord[1] + calc_distance(graph.graph[graph.finish].x, graph.graph[graph.finish].y, neighbord[0].x, neighbord[0].y)
+                stack.append(neighbord[0])
+        yield
+    raise StopIteration
